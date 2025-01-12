@@ -4,6 +4,7 @@ import Button from "./Button";
 
 const Dragon = ({ color = "#000000" }) => {
   const screenRef = useRef(null);
+  //   const animationFrameRef = useRef(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isAutoAnimating, setIsAutoAnimating] = useState(false);
   const [allowCursorMovement, setAllowCursorMovement] = useState(true);
@@ -17,11 +18,6 @@ const Dragon = ({ color = "#000000" }) => {
   const toggleAllowCursorMovement = () => {
     console.log("toggleAllowCursorMovement-clicked");
     setAllowCursorMovement((prev) => !prev);
-  };
-
-  const toggleAutoAnimation = () => {
-    console.log("toggleAutoAnimation-clicked");
-    setIsAutoAnimating((prev) => !prev);
   };
 
   useEffect(() => {
@@ -63,6 +59,7 @@ const Dragon = ({ color = "#000000" }) => {
     resize();
 
     const run = () => {
+      // If animation is paused, stop further animation frames
       if (!isAnimating) {
         console.log("Animation stopped");
         cancelAnimationFrame(animationFrameId);
@@ -70,6 +67,7 @@ const Dragon = ({ color = "#000000" }) => {
       }
       console.log("Animating", isAnimating);
 
+      // Schedule next frame
       animationFrameId = requestAnimationFrame(run);
 
       const e = elems[0];
@@ -82,6 +80,7 @@ const Dragon = ({ color = "#000000" }) => {
         const e = elems[i];
         const ep = elems[i - 1];
 
+        // Ensure x and y are valid numbers
         e.x = isNaN(e.x) ? width / 2 : e.x;
         e.y = isNaN(e.y) ? height / 2 : e.y;
         ep.x = isNaN(ep.x) ? width / 2 : ep.x;
@@ -96,6 +95,7 @@ const Dragon = ({ color = "#000000" }) => {
 
         const s = (162 + 4 * (1 - i)) / 50;
 
+        // Apply transformations only if values are valid
         if (!isNaN(e.x) && !isNaN(e.y) && !isNaN(a) && !isNaN(s)) {
           e.use.setAttributeNS(
             null,
@@ -132,12 +132,13 @@ const Dragon = ({ color = "#000000" }) => {
       window.addEventListener("pointermove", pointerMoveHandler, false);
     }
 
+    // Start animation when component mounts or updates
     run();
 
     return () => {
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", pointerMoveHandler);
-      cancelAnimationFrame(animationFrameId);
+      cancelAnimationFrame(animationFrameId); // Cleanup on component unmount
     };
   }, [isAnimating, allowCursorMovement]);
 
@@ -157,28 +158,16 @@ const Dragon = ({ color = "#000000" }) => {
       >
         <Button
           onClick={toggleAnimation}
-          text={isAnimating ? "Pause" : "Play"}
+          text={isAnimating ? "Pause Animation" : "Play Animation"}
         />
-        {isAnimating && (
-          <>
-            <Button
-              onClick={toggleAllowCursorMovement}
-              text={
-                allowCursorMovement
-                  ? "Disable Cursor Movement"
-                  : "Enable Cursor Movement"
-              }
-            />
-            <Button
-              onClick={toggleAutoAnimation}
-              text={
-                isAutoAnimating
-                  ? "Disable Auto Animation"
-                  : "Enable Auto Animation"
-              }
-            />
-          </>
-        )}
+        <Button
+          onClick={toggleAllowCursorMovement}
+          text={
+            allowCursorMovement
+              ? "Disable Cursor Movement"
+              : "Enable Cursor Movement"
+          }
+        />
       </div>
     </>
   );
