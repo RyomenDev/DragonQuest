@@ -1,8 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SVGCanvas from "./SVGCanvas";
 
 const Dragon = ({ color = "#000000" }) => {
   const screenRef = useRef(null);
+  const animationFrameRef = useRef(null);
+  const [isAnimating, setIsAnimating] = useState(true);
+  const [allowCursorMovement, setAllowCursorMovement] = useState(true);
 
   useEffect(() => {
     const screen = screenRef.current;
@@ -29,6 +32,7 @@ const Dragon = ({ color = "#000000" }) => {
         "xlink:href",
         "#" + use
       );
+      //   if (!allowCursorMovement) return;
       screen.prepend(elem);
     };
 
@@ -36,6 +40,7 @@ const Dragon = ({ color = "#000000" }) => {
     resize();
 
     const run = () => {
+      if (!isAnimating) return;
       requestAnimationFrame(run);
       let e = elems[0];
       const ax = (Math.cos(3 * frm) * rad * width) / height;
@@ -90,9 +95,61 @@ const Dragon = ({ color = "#000000" }) => {
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", () => {});
     };
-  }, []);
+  }, [isAnimating]);
 
-  return <SVGCanvas screenRef={screenRef} color={color} />;
+  const toggleAnimation = () => {
+    setIsAnimating((prev) => !prev);
+    if (!isAnimating) {
+      // Restart animation if previously paused
+      animationFrameRef.current = requestAnimationFrame(() => {});
+    }
+  };
+  const toggleAllowCursorMovement = () => {
+    setAllowCursorMovement((prev) => !prev);
+  };
+
+  return (
+    <>
+      <SVGCanvas screenRef={screenRef} color={color} />
+      <button
+        onClick={toggleAnimation}
+        style={{
+          position: "absolute",
+          top: "10px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 1000, // Ensure it appears above the SVG
+          padding: "10px 20px",
+          backgroundColor: "#007BFF",
+          color: "#FFFFFF",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+      >
+        {isAnimating ? "Pause" : "Play"} Animation
+      </button>
+      {/*  */}
+      <button
+        onClick={toggleAnimation}
+        style={{
+          position: "absolute",
+          top: "60px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 1000, // Ensure it appears above the SVG
+          padding: "10px 20px",
+          backgroundColor: "#007BFF",
+          color: "#FFFFFF",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+      >
+        {allowCursorMovement ? "Pause" : "Play"} Movement
+      </button>
+    </>
+  );
 };
 
 export default Dragon;
