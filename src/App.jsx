@@ -1,14 +1,26 @@
-import DragonAnimation from "./DragonAnimation";
-// import DragonSVG from "./DragonSVG";
-// import DragonSvg from "./utility/Dragon.svg";
+import Dragon from "./components/Dragon";
 
-const App = () => {
+const Main = () => {
   return (
     <div>
-      <DragonAnimation />
-      {/* <DragonSVG /> */}
+      <Dragon />
     </div>
   );
 };
 
-export default App;
+export default Main;
+
+// import DragonAnimation from "./DragonAnimation";
+// // import DragonSVG from "./DragonSVG";
+// // import DragonSvg from "./utility/Dragon.svg";
+
+// const App = () => {
+//   return (
+//     <div>
+//       <DragonAnimation />
+//       {/* <DragonSVG /> */}
+//     </div>
+//   );
+// };
+
+// export default App;
