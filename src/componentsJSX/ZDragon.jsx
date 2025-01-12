@@ -6,12 +6,12 @@ const Dragon = ({ color = "#000000" }) => {
   const screenRef = useRef(null);
   const animationFrameIdRef = useRef(null); // Store animationFrameId in useRef
   const elemsRef = useRef([]); // Use useRef to store elems
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [allowCursorMovement, setAllowCursorMovement] = useState(true);
-  const [isAutoAnimating, setIsAutoAnimating] = useState(true);
+  const [isAnimating, setIsAnimating] = useState(false); // Control animation state
+  const [allowCursorMovement, setAllowCursorMovement] = useState(true); // Manage cursor movement
+  const [isAutoAnimating, setIsAutoAnimating] = useState(true); // Control auto animation
 
   const toggleAnimation = () => {
-    setIsAnimating((prev) => !prev);
+    setIsAnimating((prev) => !prev); // Toggle animation state
   };
 
   const toggleAllowCursorMovement = () => {
@@ -28,6 +28,7 @@ const Dragon = ({ color = "#000000" }) => {
     let rad = 0;
     let frm = Math.random();
     const N = 40;
+    let lastMoveTime = Date.now(); // Track when the last movement happened
 
     const resize = () => {
       // Update screen width and height if necessary
@@ -104,16 +105,14 @@ const Dragon = ({ color = "#000000" }) => {
     };
 
     const pointerMoveHandler = (e) => {
+      // Only update pointer position on mouse move but do not change the animation state
       pointer.x = e.clientX;
       pointer.y = e.clientY;
       rad = 0;
-
-      // If cursor movement is allowed and auto-animation is disabled, run the animation
-      if (allowCursorMovement && !isAutoAnimating) {
-        if (!isAnimating) setIsAnimating(true); // Start animation when moving the cursor if it’s not already playing
-      }
+      lastMoveTime = Date.now(); // Update the last move time
     };
 
+    // Only allow cursor movement to update pointer if the flag is enabled
     if (allowCursorMovement) {
       window.addEventListener("pointermove", pointerMoveHandler, false);
     }
@@ -176,22 +175,18 @@ const Dragon = ({ color = "#000000" }) => {
                 color: "#FFFFFF",
               }}
             />
-            {!allowCursorMovement && (
-              <>
-                <Button
-                  onClick={toggleAutoAnimation}
-                  text={
-                    isAutoAnimating
-                      ? "Disable Auto Animation"
-                      : "Enable Auto Animation"
-                  }
-                  style={{
-                    backgroundColor: isAutoAnimating ? "#6C757D" : "#007BFF", // Gray for Disable, Blue for Enable
-                    color: "#FFFFFF",
-                  }}
-                />
-              </>
-            )}
+            <Button
+              onClick={toggleAutoAnimation}
+              text={
+                isAutoAnimating
+                  ? "Disable Auto Animation"
+                  : "Enable Auto Animation"
+              }
+              style={{
+                backgroundColor: isAutoAnimating ? "#6C757D" : "#007BFF", // Gray for Disable, Blue for Enable
+                color: "#FFFFFF",
+              }}
+            />
           </>
         )}
       </div>
