@@ -1,6 +1,6 @@
-import Dragon from "./components/Dragon";
-// import Dragon from "./components/TDragon";
-// import Dragon from "./components/XDragon";
+import Dragon from "./componentsJSX/Dragon";
+// import Dragon from "./componentsJSX/TDragon";
+// import Dragon from "./componentsJSX/XDragon";
 
 const Main = () => {
   return (

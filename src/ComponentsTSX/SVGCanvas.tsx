@@ -1,7 +1,12 @@
-import React from "react";
+import React, { RefObject } from "react";
 import Defs from "./Defs";
 
-const SVGCanvas = ({ screenRef, color }) => {
+interface SVGCanvasProps {
+  screenRef: RefObject<SVGSVGElement>;
+  color: string;
+}
+
+const SVGCanvas: React.FC<SVGCanvasProps> = ({ screenRef, color }) => {
   return (
     <svg
       ref={screenRef}

@@ -1,15 +1,11 @@
-import DragonSvg from "./utility/Dragon.svg";
-// import { Dragon } from "./utility/Dragon.tsx";
-// import { DragonMovement } from "./components/DragonMovement";
+import Dragon from "./componentsTSX/Dragon";
 
-function App() {
+const Main = () => {
   return (
-    <>
-      <img src={DragonSvg} alt="Dragon" />
-      {/* <Dragon /> */}
-      {/* <DragonMovement/> */}
-    </>
+    <div>
+      <Dragon />
+    </div>
   );
-}
+};
 
-export default App;
+export default Main;

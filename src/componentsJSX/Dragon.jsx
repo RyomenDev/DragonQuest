@@ -157,6 +157,10 @@ const Dragon = ({ color = "#000000" }) => {
         <Button
           onClick={toggleAnimation}
           text={isAnimating ? "Pause" : "Play"}
+          style={{
+            backgroundColor: isAnimating ? "#DC3545" : "#28A745", // Red for Pause, Green for Play
+            color: "#FFFFFF",
+          }}
         />
         {isAnimating && (
           <>
@@ -167,6 +171,10 @@ const Dragon = ({ color = "#000000" }) => {
                   ? "Disable Cursor Movement"
                   : "Enable Cursor Movement"
               }
+              style={{
+                backgroundColor: allowCursorMovement ? "#FFC107" : "#17A2B8", // Yellow for Disable, Blue for Enable
+                color: "#FFFFFF",
+              }}
             />
             <Button
               onClick={toggleAutoAnimation}
@@ -175,6 +183,10 @@ const Dragon = ({ color = "#000000" }) => {
                   ? "Disable Auto Animation"
                   : "Enable Auto Animation"
               }
+              style={{
+                backgroundColor: isAutoAnimating ? "#6C757D" : "#007BFF", // Gray for Disable, Blue for Enable
+                color: "#FFFFFF",
+              }}
             />
           </>
         )}
