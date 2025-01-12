@@ -9,14 +9,14 @@ const Dragon = ({ color = "#000000" }) => {
     const screen = screenRef.current;
     let width, height;
     const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-    console.log("hello3");
+ 
     let rad = 0;
     let frm = Math.random();
     const N = 40;
     const elems = [];
 
     const resize = () => {
-      console.log("hello2");
+
       width = window.innerWidth;
       height = window.innerHeight;
     };

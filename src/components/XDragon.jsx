@@ -4,7 +4,6 @@ import SVGCanvas from "./SVGCanvas";
 const Dragon = ({ color = "#000000" }) => {
   const screenRef = useRef(null);
   const animationFrameRef = useRef(null);
-  //   const [isAnimating, setIsAnimating] = useState(true); // Add state to control animation
 
   useEffect(() => {
     const screen = screenRef.current;
@@ -94,18 +93,10 @@ const Dragon = ({ color = "#000000" }) => {
       // Cleanup
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", () => {});
-      cancelAnimationFrame(animationFrameRef.current); // Stop the animation on unmount
+      //   cancelAnimationFrame(animationFrameRef.current); // Stop the animation on unmount
     };
   }, []);
 
-  //   // Control the animation programmatically (for example after some time)
-  //   useEffect(() => {
-  //     const timer = setTimeout(() => {
-  //       setIsAnimating(false); // Stop the animation after 10 seconds
-  //     }, 10000); // Change the time as needed
-
-  //     return () => clearTimeout(timer); // Cleanup the timeout on unmount
-  //   }, []);
 
   return <SVGCanvas screenRef={screenRef} color={color} />;
 };

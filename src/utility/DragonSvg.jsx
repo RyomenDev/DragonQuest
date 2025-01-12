@@ -2,11 +2,6 @@
 //   color?: string;
 // }
 
-// xmlns
-// xlikns
-// height
-// width
-
 export const Dragon: React.FC<DragonProps> = ({ color = "#000000" }) => (
   <svg>
     <defs>
