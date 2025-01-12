@@ -8,7 +8,7 @@ const Dragon = ({ color = "#000000" }) => {
   const elemsRef = useRef([]); // Use useRef to store elems
   const [isAnimating, setIsAnimating] = useState(false);
   const [allowCursorMovement, setAllowCursorMovement] = useState(true);
-  const [isAutoAnimating, setIsAutoAnimating] = useState(false);
+  const [isAutoAnimating, setIsAutoAnimating] = useState(true);
 
   const toggleAnimation = () => {
     setIsAnimating((prev) => !prev);
@@ -51,7 +51,7 @@ const Dragon = ({ color = "#000000" }) => {
     resize();
 
     const run = () => {
-      if (!isAnimating) {
+      if (!isAnimating && !isAutoAnimating) {
         cancelAnimationFrame(animationFrameIdRef.current);
         return;
       }
@@ -107,6 +107,11 @@ const Dragon = ({ color = "#000000" }) => {
       pointer.x = e.clientX;
       pointer.y = e.clientY;
       rad = 0;
+
+      // If cursor movement is allowed and auto-animation is disabled, run the animation
+      if (allowCursorMovement && !isAutoAnimating) {
+        if (!isAnimating) setIsAnimating(true); // Start animation when moving the cursor if it’s not already playing
+      }
     };
 
     if (allowCursorMovement) {
@@ -123,8 +128,8 @@ const Dragon = ({ color = "#000000" }) => {
       }
     }
 
-    // Start animation when toggled
-    if (isAnimating) {
+    // Handle auto-animation logic
+    if ((isAutoAnimating || allowCursorMovement) && isAnimating) {
       run();
     }
 
@@ -133,7 +138,7 @@ const Dragon = ({ color = "#000000" }) => {
       window.removeEventListener("pointermove", pointerMoveHandler);
       cancelAnimationFrame(animationFrameIdRef.current);
     };
-  }, [isAnimating, allowCursorMovement]); // Only depend on isAnimating and allowCursorMovement
+  }, [isAnimating, allowCursorMovement, isAutoAnimating]);
 
   return (
     <>
