@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import SVGCanvas from "./SVGCanvas";
-import Button from "./Button";
+import { useEffect, useRef, useState } from "react";
+import SVGCanvas from "./SVGCanvas.tsx";
+import Button from "./Button.tsx";
 
 interface DragonProps {
   color?: string; // Optional prop for dragon color

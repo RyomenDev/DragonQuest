@@ -1,5 +1,5 @@
-import React, { RefObject } from "react";
-import Defs from "./Defs";
+import { RefObject } from "react";
+import Defs from "./Defs.tsx";
 
 interface SVGCanvasProps {
   screenRef: RefObject<SVGSVGElement>;
