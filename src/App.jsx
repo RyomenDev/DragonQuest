@@ -1,4 +1,5 @@
-import Dragon from "./components/Dragon";
+// import Dragon from "./components/Dragon";
+import Dragon from "./components/XDragon";
 
 const Main = () => {
   return (

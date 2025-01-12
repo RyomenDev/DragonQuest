@@ -4,23 +4,6 @@ import Button from "./Button";
 
 const Dragon = ({ color = "#000000" }) => {
   const screenRef = useRef(null);
-  const animationFrameIdRef = useRef(null); // Store animationFrameId in useRef
-  const elemsRef = useRef([]); // Use useRef to store elems
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [allowCursorMovement, setAllowCursorMovement] = useState(true);
-  const [isAutoAnimating, setIsAutoAnimating] = useState(false);
-
-  const toggleAnimation = () => {
-    setIsAnimating((prev) => !prev);
-  };
-
-  const toggleAllowCursorMovement = () => {
-    setAllowCursorMovement((prev) => !prev);
-  };
-
-  const toggleAutoAnimation = () => {
-    setIsAutoAnimating((prev) => !prev);
-  };
 
   useEffect(() => {
     const screen = screenRef.current;
@@ -51,11 +34,6 @@ const Dragon = ({ color = "#000000" }) => {
     resize();
 
     const run = () => {
-      if (!isAnimating) {
-        cancelAnimationFrame(animationFrameIdRef.current);
-        return;
-      }
-
       animationFrameIdRef.current = requestAnimationFrame(run);
 
       const e = elemsRef.current[0];
@@ -109,71 +87,28 @@ const Dragon = ({ color = "#000000" }) => {
       rad = 0;
     };
 
-    if (allowCursorMovement) {
-      window.addEventListener("pointermove", pointerMoveHandler, false);
-    }
+    window.addEventListener("pointermove", pointerMoveHandler, false);
 
     // Initialize the elements only once
-    if (elemsRef.current.length === 0) {
-      for (let i = 0; i < N; i++) {
-        elemsRef.current[i] = { use: null, x: window.innerWidth / 2, y: 0 };
-        if (i === 1) prepend("Cabeza", i);
-        else if (i === 8 || i === 14) prepend("Aletas", i);
-        else prepend("Espina", i);
-      }
+
+    for (let i = 0; i < N; i++) {
+      elemsRef.current[i] = { use: null, x: window.innerWidth / 2, y: 0 };
+      if (i === 1) prepend("Cabeza", i);
+      else if (i === 8 || i === 14) prepend("Aletas", i);
+      else prepend("Espina", i);
     }
 
-    // Start animation when toggled
-    if (isAnimating) {
-      run();
-    }
+    run();
 
     return () => {
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", pointerMoveHandler);
       cancelAnimationFrame(animationFrameIdRef.current);
     };
-  }, [isAnimating, allowCursorMovement]); // Only depend on isAnimating and allowCursorMovement
-
+  }, []);
   return (
     <>
       <SVGCanvas screenRef={screenRef} color={color} />
-      <div
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          zIndex: 1000,
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-        }}
-      >
-        <Button
-          onClick={toggleAnimation}
-          text={isAnimating ? "Pause" : "Play"}
-        />
-        {isAnimating && (
-          <>
-            <Button
-              onClick={toggleAllowCursorMovement}
-              text={
-                allowCursorMovement
-                  ? "Disable Cursor Movement"
-                  : "Enable Cursor Movement"
-              }
-            />
-            <Button
-              onClick={toggleAutoAnimation}
-              text={
-                isAutoAnimating
-                  ? "Disable Auto Animation"
-                  : "Enable Auto Animation"
-              }
-            />
-          </>
-        )}
-      </div>
     </>
   );
 };
